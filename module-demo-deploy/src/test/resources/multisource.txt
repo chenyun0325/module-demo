@@ -1,0 +1,147 @@
+<bean id="dataSourceCommon" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${common.driver}"/>
+        <property name="url" value="${common.url}"/>
+        <property name="username" value="${common.username}"/>
+        <property name="password" value="${common.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${common.maxWait}"/>
+        <property name="initialSize" value="${common.initialSize}"/>
+        <property name="maxActive" value="${common.maxActive}"/>
+        <property name="minIdle" value="${common.minIdle}"/>
+        <property name="defaultAutoCommit" value="${common.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${common.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${common.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${common.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${common.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${common.logAbandoned}"/>
+        <property name="testWhileIdle" value="${common.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${common.testOnBorrow}"/>
+        <property name="testOnReturn" value="${common.testOnReturn}"/>
+        <property name="validationQuery" value="${common.validationQuery}"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="log-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- data source carmen单独拆库 -->
+    <bean id="dataSourceCarmen" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${carmen.driver}"/>
+        <property name="url" value="${carmen.url}"/>
+        <property name="username" value="${carmen.username}"/>
+        <property name="password" value="${carmen.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${carmen.maxWait}"/>
+        <property name="initialSize" value="${carmen.initialSize}"/>
+        <property name="maxActive" value="${carmen.maxActive}"/>
+        <property name="minIdle" value="${carmen.minIdle}"/>
+        <property name="defaultAutoCommit" value="${carmen.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${carmen.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${carmen.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${carmen.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${carmen.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${carmen.logAbandoned}"/>
+        <property name="testWhileIdle" value="${carmen.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${carmen.testOnBorrow}"/>
+        <property name="testOnReturn" value="${carmen.testOnReturn}"/>
+        <property name="validationQuery" value="${carmen.validationQuery}"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="log-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- data source -->
+    <bean id="datasourceCluster" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${cluster.driver}"/>
+        <property name="url" value="${cluster.url}"/>
+        <property name="username" value="${cluster.username}"/>
+        <property name="password" value="${cluster.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${cluster.maxWait}"/>
+        <property name="initialSize" value="${cluster.initialSize}"/>
+        <property name="maxActive" value="${cluster.maxActive}"/>
+        <property name="minIdle" value="${cluster.minIdle}"/>
+        <property name="defaultAutoCommit" value="${cluster.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${cluster.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${cluster.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${cluster.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${cluster.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${cluster.logAbandoned}"/>
+        <property name="testWhileIdle" value="${cluster.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${cluster.testOnBorrow}"/>
+        <property name="testOnReturn" value="${cluster.testOnReturn}"/>
+        <property name="validationQuery" value="${cluster.validationQuery}"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="log-filter"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- session factory -->
+    <bean id="sqlSessionFactoryCommon"
+          class="com.huigujia.platform.dao.mybatis3.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceCommon"/>
+        <property name="dataBaseDialect" ref="mySqlDialect"/>
+        <property name="configLocation" value="classpath:mybatis/app-mybatis.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
+        <property name="plugins">
+            <list>
+                <ref bean="paginationInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- session factory -->
+    <bean id="sqlSessionFactoryCarmen"
+          class="com.huigujia.platform.dao.mybatis3.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceCarmen"/>
+        <property name="dataBaseDialect" ref="mySqlDialect"/>
+        <property name="configLocation" value="classpath:mybatis/app-mybatis.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
+        <property name="plugins">
+            <list>
+                <ref bean="paginationInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionFactoryCluster"
+          class="com.huigujia.platform.dao.mybatis3.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasourceCluster"/>
+        <property name="dataBaseDialect" ref="mySqlDialect"/>
+        <property name="configLocation" value="classpath:mybatis/app-mybatis.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
+        <property name="plugins">
+            <list>
+                <ref bean="paginationInterceptor"/>
+            </list>
+        </property>
+    </bean> 
+
+
+ <bean class="com.huigujia.platform.dao.mybatis3.configer.MultiDaoMapperScannerConfiger">
+        <property name="basePackage" value="com.huigujia.carmen.*.dao"/>
+        <!--没有datasource注解时使用的sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryCarmen"/>
+        <property name="factoryBeanNameMap">
+            <map>
+                <entry key="common" value="sqlSessionFactoryCommon"/>
+                <entry key="carmen" value="sqlSessionFactoryCarmen"/>
+                <entry key="cluster" value="sqlSessionFactoryCluster"/>
+            </map>
+        </property>
+</bean>

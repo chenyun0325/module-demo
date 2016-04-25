@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huigujia.platform.moduledemo.account.dao.IAdjustOrderDAO">
+	<resultMap id="BaseResultMap" type="com.huigujia.platform.moduledemo.account.pojo.AdjustOrder">
+		<id column="order_no" property="orderNo" jdbcType="BIGINT" />
+		<result column="pz_account_id" property="pzAccountId" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_real_name" property="userRealName"
+			jdbcType="VARCHAR" />
+		<result column="order_amount" property="orderAmount" jdbcType="BIGINT" />
+		<result column="order_abstract" property="orderAbstract"
+			jdbcType="VARCHAR" />
+		<result column="oper_user" property="operUser" jdbcType="VARCHAR" />
+		<result column="verify_user" property="verifyUser" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="verify_datetime" property="verifyDatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="verify_status" property="verifyStatus"
+			jdbcType="VARCHAR" />
+		<result column="create_datetime" property="createDatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="update_datetime" property="updateDatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="seq_flag" property="seqFlag" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="F831108ResMap" type="com.huigujia.platform.moduledemo.account.dto.res.F831108Res">
+		<id column="order_no" property="orderNo" jdbcType="BIGINT" />
+		<result column="pz_account_id" property="pzAccountId" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_real_name" property="userRealName"
+			jdbcType="VARCHAR" />
+		<result column="order_amount" property="orderAmount" jdbcType="BIGINT" />
+		<result column="order_abstract" property="orderAbstract"
+			jdbcType="VARCHAR" />
+		<result column="oper_user" property="operUser" jdbcType="VARCHAR" />
+		<result column="verify_user" property="verifyUser" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="verify_datetime" property="verifyDatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="verify_status" property="verifyStatus"
+			jdbcType="VARCHAR" />
+		<result column="create_datetime" property="createDatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="update_datetime" property="updateDatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="seq_flag" property="seqFlag" jdbcType="VARCHAR" />
+	</resultMap>
+		
+	<sql id="Base_Column_List">
+		order_no, pz_account_id, user_id, user_real_name, order_amount, order_abstract,
+		oper_user,
+		verify_user, remark, verify_datetime, verify_status, create_datetime,
+		update_datetime,
+		seq_flag
+	</sql>
+	<select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from tpz_adjust_order
+		where order_no = #{orderNo,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from tpz_adjust_order
+		where order_no = #{orderNo,jdbcType=BIGINT}
+	</delete>
+	<insert id="save" parameterType="com.huigujia.platform.moduledemo.account.pojo.AdjustOrder">
+		insert into tpz_adjust_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNo != 0">
+				order_no,
+			</if>
+			<if test="pzAccountId != null">
+				pz_account_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userRealName != null">
+				user_real_name,
+			</if>
+			<if test="orderAmount != null">
+				order_amount,
+			</if>
+			<if test="orderAbstract != null">
+				order_abstract,
+			</if>
+			<if test="operUser != null">
+				oper_user,
+			</if>
+			<if test="verifyUser != null">
+				verify_user,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="verifyDatetime != null">
+				verify_datetime,
+			</if>
+			<if test="verifyStatus != null">
+				verify_status,
+			</if>
+			<if test="createDatetime != null">
+				create_datetime,
+			</if>
+			<if test="updateDatetime != null">
+				update_datetime,
+			</if>
+			<if test="seqFlag != null">
+				seq_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNo != 0">
+				#{orderNo,jdbcType=BIGINT},
+			</if>
+			<if test="pzAccountId != null">
+				#{pzAccountId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userRealName != null">
+				#{userRealName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderAmount != null">
+				#{orderAmount,jdbcType=BIGINT},
+			</if>
+			<if test="orderAbstract != null">
+				#{orderAbstract,jdbcType=VARCHAR},
+			</if>
+			<if test="operUser != null">
+				#{operUser,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyUser != null">
+				#{verifyUser,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyDatetime != null">
+				#{verifyDatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="verifyStatus != null">
+				#{verifyStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="createDatetime != null">
+				#{createDatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDatetime != null">
+				#{updateDatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seqFlag != null">
+				#{seqFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.huigujia.platform.moduledemo.account.pojo.AdjustOrder">
+		update tpz_adjust_order
+		<set>
+			<if test="pzAccountId != null">
+				pz_account_id = #{pzAccountId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userRealName != null">
+				user_real_name = #{userRealName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderAmount != null">
+				order_amount = #{orderAmount,jdbcType=BIGINT},
+			</if>
+			<if test="orderAbstract != null">
+				order_abstract = #{orderAbstract,jdbcType=VARCHAR},
+			</if>
+			<if test="operUser != null">
+				oper_user = #{operUser,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyUser != null">
+				verify_user = #{verifyUser,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyDatetime != null">
+				verify_datetime = #{verifyDatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="verifyStatus != null">
+				verify_status = #{verifyStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="createDatetime != null">
+				create_datetime = #{createDatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDatetime != null">
+				update_datetime = #{updateDatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seqFlag != null">
+				seq_flag = #{seqFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where order_no = #{orderNo,jdbcType=BIGINT}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="queryF831108WithPage" resultMap="F831108ResMap"
+		parameterType="com.huigujia.platform.moduledemo.account.dto.req.F831108Req">
+		select
+		<include refid="Base_Column_List" />
+		from tpz_adjust_order t
+		<include refid="Base_Column_Cond" />@1
+		<trim prefix="ORDER BY ">
+			<if test="orderColumn != null and  orderColumn != ''">
+				#{orderColumn} #{orderDir}
+			</if>
+		</trim>
+	</select>
+
+	<sql id="Base_Column_Cond">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="pzAccountId != null and pzAccountId !=''">
+				and t.pz_account_id = #{pzAccountId}
+			</if>
+			<if test="userId != null and userId != ''">
+				and t.user_id = #{userId}
+			</if>
+			<if test="verifyDatetimeBegin != null and verifyDatetimeBegin != '' ">
+			<![CDATA[AND t.verify_datetime >= #{verifyDatetimeBegin}]]>
+			</if>
+			<if test="verifyDatetimeEnd != null and verifyDatetimeEnd != '' ">
+			<![CDATA[AND t.verify_datetime<= #{verifyDatetimeEnd}]]>
+			</if>
+			<if test="createDatetimeBegin != null and createDatetimeBegin != '' ">
+			<![CDATA[AND t.createdatetime >= #{createDatetimeBegin}]]>
+			</if>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+			<![CDATA[AND t.createdatetime<= #{createDatetimeEnd}]]>
+			</if>
+			<if test="seqFlag != null and  seqFlag != ''">
+				and t.seq_flag =#{seqFlag}
+			</if>
+			<if test="verifyStatus != null and  verifyStatus != ''">
+				and t.verify_status =#{verifyStatus}
+			</if>
+			<if test="accountBizType != null and  accountBizType != ''">
+				AND t.account_biz_type =#{accountBizType}
+			</if>
+			<if test="remark != null and remark != ''">
+				<bind name="pattern" value="'%'+_parameter.remark+'%'" />
+				and t.remark like #{pattern}
+			</if>
+
+		</trim>
+	</sql>
+
+</mapper>

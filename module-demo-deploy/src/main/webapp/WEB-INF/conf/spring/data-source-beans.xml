@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+     	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value> classpath*:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 数据源配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="initialSize" value="${jdbc.initialSize}"/>
+		<property name="maxActive" value="${jdbc.maxActive}"/>
+		<property name="maxIdle" value="${jdbc.maxIdle}"/>
+		<property name="minIdle" value="${jdbc.minIdle}"/>  
+		<property name="maxWait" value="${jdbc.maxWait}"/>
+		<property name="removeAbandoned" value="${jdbc.removeAbandoned}"/>
+		<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}"/>
+		<!--validation  -->
+		<property name="testWhileIdle" value="${jdbc.testWhileIdle}"/>
+		<property name="validationQuery" value="${jdbc.validationQuery}"/>  
+		<property name="validationQueryTimeout" value="${jdbc.validationQueryTimeout}"/>  
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>  
+		<property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}"/> 
+	</bean>
+
+
+	<!-- 分页参数：转换器 -->
+	<bean class="com.huigujia.platform.dao.base.para.PageConverterFactory">
+		<property name="converters">			
+			<list>
+				<value>com.huigujia.platform.moduledemo.common.query.BasePageConvertor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 分页处理:拦截器 -->
+	<bean id="paginationInterceptor" class="com.huigujia.platform.dao.mybatis3.interceptor.PaginationInterceptor">
+		<property name="pageMapper" value=".*WithPage.*"/>
+	</bean>
+	<!-- 主键生成策略 -->
+	<bean id="dbidGenerator" class="com.huigujia.platform.dao.common.id.MemoryDbidGenerator">
+		<property name="serverId" value="1"/>
+	</bean>
+	<!-- 主键生成  -->
+	<bean id="idGenInterceptor" class="com.huigujia.platform.dao.mybatis3.interceptor.IdGenInterceptor">
+		<property name="dbidGenerator" ref="dbidGenerator"/>
+	</bean>
+	<!-- 乐观锁 -->
+	<bean id="optimisticLockInterceptor" class="com.huigujia.platform.dao.mybatis3.interceptor.OptimisticLockInterceptor">
+	</bean>
+	<!-- Mysql数据库 -->
+	<bean id="mySqlDialect" class="com.huigujia.platform.dao.mybatis3.dialect.MysqlDialect">
+		
+	</bean>
+	<!-- mybatis session factory -->
+	<bean id="sqlSessionFactory" class="com.huigujia.platform.dao.mybatis3.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="dataBaseDialect" ref="mySqlDialect" />		
+		<property name="plugins">
+			<list>
+				<ref bean="paginationInterceptor"/>
+				<ref bean="idGenInterceptor"/>
+				<ref bean="optimisticLockInterceptor"/>
+			</list>	    	
+	    </property>
+	</bean>     
+	<!--mapper 扫描配置  -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<!--basePackage指定要扫描的包，在此包之下的映射器都会被 搜索到。可指定多个包，包与包之间用逗号或分号分隔 -->
+		<property name="basePackage" value="com.huigujia.platform.moduledemo.*.dao" />
+	</bean>
+
+</beans>
